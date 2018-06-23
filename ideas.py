@@ -13,10 +13,15 @@ white = (255,255,255)
 grey = (128,128,128)
 black = (0,0,0)
 
+Background = pygame.image.load('background.png')
+
 botFront = pygame.image.load('simpleBotFront.png')
 botBack = pygame.image.load('simpleBotBack.png')
 botLeft = pygame.image.load('simpleBotL.png')
 botRight = pygame.image.load('simpleBotR.png')
+
+def background(x,y):
+    window.blit(Background, (x,y))
 
 def botF(x,y):
     window.blit(botFront, (x,y))
@@ -68,7 +73,8 @@ def gameLoop():
                     boty_change = 0
                 
                 
-        window.fill(black)
+        #window.fill(black)
+        background(0,0)
 
         botx += botx_change
         boty += boty_change
