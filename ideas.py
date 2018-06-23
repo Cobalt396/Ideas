@@ -25,10 +25,10 @@ def botB(x,y):
     window.blit(botBack, (x,y))
 
 def botL(x,y):
-    window.blit(botL, (x,y))
+    window.blit(botLeft, (x,y))
 
 def botR(x,y):
-    window.blit(botR, (x,y))
+    window.blit(botRight, (x,y))
 
 def gameLoop():
     end = False
@@ -39,6 +39,8 @@ def gameLoop():
     botx_change = 0
     boty_change = 0
 
+    direction = 'front'
+
     while not end:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -47,12 +49,16 @@ def gameLoop():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
+                    direction = 'right'
                     botx_change += 5
                 elif event.key == pygame.K_LEFT:
+                    direction = 'left'
                     botx_change += -5
                 elif event.key == pygame.K_DOWN:
+                    direction = 'front'
                     boty_change += 5
                 elif event.key == pygame.K_UP:
+                    direction = 'back'
                     boty_change += -5
 
             if event.type == pygame.KEYUP:
@@ -67,7 +73,14 @@ def gameLoop():
         botx += botx_change
         boty += boty_change
 
-        botF(botx, boty)
+        if direction == 'front':
+            botF(botx, boty)
+        elif direction == 'right':
+            botR(botx, boty)
+        elif direction == 'left':
+            botL(botx, boty)
+        elif direction == 'back':
+            botB(botx, boty)
 
         pygame.display.update()
         clock.tick(60)
