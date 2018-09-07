@@ -8,7 +8,9 @@ import requests
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup as BS
+import os
 from tkinter import *
+
 
 print('Reading National Pokedex')
 
@@ -112,18 +114,33 @@ def printMergeInfo(filename, nationalDex):
 def main():
 	'''Gets the national pokedex, formats each regional dex, and appends them
 	into a single pokedex.'''
-	dfs = getPokemonFromBulba()
 
-	kanto = formatRegionalDex(dfs[1])
-	johto = formatRegionalDex(dfs[2])
-	hoenn = formatRegionalDex(dfs[3])
-	sinnoh = formatRegionalDex(dfs[4])
-	unova = formatRegionalDex(dfs[5])
-	print(dfs[6])
+	# If the saved file does not exist,
+	# get data from website, make data frame, and save data frame
+	# Else, load from saved data frame
+	if not os.path.isfile('./nationalDex.pickle'):
+		print("Loading data from website")
+		dfs = getPokemonFromBulba()
 
-	national = pd.concat([kanto, johto, hoenn, sinnoh, unova], sort = 'False')
-	natCols = ['Kdex', 'Jdex', 'Hdex', 'Sdex', 'Pokemon', 'Type', 'Type 2']
-	national = national[natCols]
+		# Create the regional pokedex
+		kanto = formatRegionalDex(dfs[1])
+		johto = formatRegionalDex(dfs[2])
+		hoenn = formatRegionalDex(dfs[3])
+		sinnoh = formatRegionalDex(dfs[4])
+		unova = formatRegionalDex(dfs[5])
+		print(dfs[6])
+
+		# Concatinate the regional pokedex together to make the national pokedex
+		national = pd.concat([kanto, johto, hoenn, sinnoh, unova], sort = 'False')
+		natCols = ['Kdex', 'Jdex', 'Hdex', 'Sdex', 'Pokemon', 'Type', 'Type 2']
+		national = national[natCols]
+
+		# Save data to a more easily read format (i.e. a pickle)
+		national.to_pickle('nationalDex.pickle')
+	else:
+		print("Loading data from file")
+		# Read data from saved pickle
+		national = pd.read_pickle('nationalDex.pickle')
 
 	print(national.head(12))
 	print()
