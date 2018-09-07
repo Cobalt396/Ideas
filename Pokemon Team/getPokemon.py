@@ -121,7 +121,7 @@ def main():
 	unova = formatRegionalDex(dfs[5])
 	print(dfs[6])
 
-	national = pd.concat([kanto, johto, hoenn, sinnoh], sort = 'False')
+	national = pd.concat([kanto, johto, hoenn, sinnoh, unova], sort = 'False')
 	natCols = ['Kdex', 'Jdex', 'Hdex', 'Sdex', 'Pokemon', 'Type', 'Type 2']
 	national = national[natCols]
 
@@ -133,7 +133,7 @@ def main():
 	printMergeInfo('danielTeam.csv', national)
 	printMergeInfo('josephTeam.csv', national)
 
-	getPokemonImageBulba('Umbreon')
+	getPokemonImageBulba('Swampert')
 
 if __name__ == '__main__':
 	main()

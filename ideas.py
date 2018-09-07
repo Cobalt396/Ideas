@@ -73,7 +73,7 @@ def gameLoop():
                     boty_change = 0
                 
                 
-        #window.fill(black)
+        #window.fill(white)
         background(0,0)
 
         botx += botx_change
