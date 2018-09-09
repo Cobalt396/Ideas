@@ -7,7 +7,7 @@ windowW = 1000
 windowL = int(windowW * windowRatio)
 
 window = pygame.display.set_mode((windowW, windowL))
-pygame.display.set_caption('simple game')
+pygame.display.set_caption('Pokemon party')
 
 clock = pygame.time.Clock()
 
