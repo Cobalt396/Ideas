@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 windowW = 640
@@ -26,6 +27,10 @@ def blocky(x,y,w,l,life):
 		pygame.draw.rect(window, black, [x, y, w, l])
 		pygame.draw.rect(window, white, [x + 2, y + 3, 5, 5])
 		pygame.draw.rect(window, white, [x + 18, y + 3, 5, 5])
+
+def stabby(winW,winH,w,l,speed):
+	pygame.draw.rect(window, grey, [random.randint(0,winW + 1), \
+					random.randint(0, winH + 1), w, l])
 
 def gameLoop():
 	end = False
@@ -62,6 +67,8 @@ def gameLoop():
 		#window.blit(background, (0,0))
 
 		blocky(bloc_x, bloc_y, bloc_w, bloc_h, blocky_life)
+
+		stabby(640,640,20,5,0)
 
 		pygame.display.update()
 		clock.tick(60)
