@@ -20,11 +20,11 @@ red = (255,0,0)
 green = (0,255,0)
 blue = (0,0,255)
 
-background = pygame.image.load("background.png")
+background = pygame.image.load("background2.png")
 
 def blocky(x,y,w,l,life):
 	if life == False:
-		pygame.draw.circle(window, red, (x + 12, y + 12), 30)
+		pygame.draw.circle(window, red, (int(x + 12), int(y + 12)), 30)
 
 	else:
 		pygame.draw.rect(window, black, [x, y, w, l])
@@ -87,8 +87,9 @@ def gameLoop():
 				bloc_y -= bloc_vel
 			if keys[pygame.K_DOWN] and bloc_y < windowH - bloc_h - bloc_vel:
 				bloc_y += bloc_vel
-			if keys[pygame.K_q]:
-				break
+				
+		if keys[pygame.K_q]:
+			break
 
 		window.fill(white)
 		#window.blit(background, (0,0))
@@ -118,6 +119,15 @@ def gameLoop():
 			slashy_startx = 0 - slashy_width
 			slashy_starty = random.randrange(0, windowH)
 			slashy_speed = random.randrange(10, 20)
+
+		if bloc_y < stabby_starty + stabby_height:
+			print('ye')
+
+			if bloc_x > stabby_startx and bloc_x < \
+			  stabby_startx + stabby_width or \
+			  bloc_x + bloc_w > stabby_startx and \
+			  bloc_x + bloc_w < stabby_startx + stabby_width:
+				blocky_life = False
 
 		pygame.display.update()
 		clock.tick(60)
