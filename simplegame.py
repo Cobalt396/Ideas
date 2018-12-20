@@ -2,6 +2,28 @@ import pygame
 import random
 import time
 
+
+# I think this is super cool!!!
+# Well done!
+# 
+# Daniel's Suggestions
+# If stabby, stabby2, and slashy do the same thing (as in the code in
+# their functions are the same) then you don't need three different
+# functions.
+# Instead, you could make a function called "makeBlock(x,y,w,h,color)"
+# that you just call three times.
+# Also, I'd call the function for the main character "makeMainCharacter"
+# since you can choose a block (rectangle) or circle depending on the
+# value of "life"
+# 
+# I can also probably help with getting the loop to remember all the 
+# stabby bois on the screen in order to make sure that the main character
+# gets hit by any stabby boi that enters the main character's hit box.
+#
+# Overall, fantatastic! I like the art and the idea!
+
+
+
 pygame.init()
 
 windowW = 640
@@ -121,7 +143,7 @@ def gameLoop():
 			slashy_speed = random.randrange(10, 20)
 
 		if bloc_y < stabby_starty + stabby_height:
-			print('ye')
+			print('ye. character y value less than stabby boi y value.')
 
 			if bloc_x > stabby_startx and bloc_x < \
 			  stabby_startx + stabby_width or \
