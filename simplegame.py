@@ -63,8 +63,6 @@ def slashy(x,y,w,h,color):
 	pygame.draw.rect(window, color, [x, y, w, h])
 
 def gameLoop():
-	end = False
-
 	bloc_x = 275
 	bloc_y = 275
 	bloc_w = 25
@@ -73,6 +71,11 @@ def gameLoop():
 	bloc_vel = 7.5
 
 	blocky_life = True
+
+	# Set the dimensions of horizontal or vertical bois
+	# Ex:
+	# hor_width = 40
+	# hor_height = 10
 
 	stabby_startx = random.randrange(0, windowW)
 	stabby_starty = -100
@@ -92,7 +95,15 @@ def gameLoop():
 	slashy_width = 40
 	slashy_height = 10
 
-	while not end:
+	# Set the initial number of enemy bois
+	# Ex:
+	# num_enemies = 4
+
+	# Initialize an empty list of enemies
+	# Ex:
+	# enemy_list = []
+
+	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
@@ -113,10 +124,26 @@ def gameLoop():
 		if keys[pygame.K_q]:
 			break
 
+		# Might want a way to reset the game...
+
 		window.fill(white)
 		#window.blit(background, (0,0))
 
 		blocky(bloc_x, bloc_y, bloc_w, bloc_h, blocky_life)
+
+		# Check if there are too few enemies.
+		# If so, we update the list with new enemies until we have enough
+		# Ex:
+		# while len(enemy_list) < num_enemies:
+		#     (Everything below should be a separate function!)
+		#     select a random number
+		#     if random number > 0.5, add a horizontal enemy
+		#         ex: makeBox(values for horizontal and random y value)
+		#         and update the list of enemy list
+		#         ex: enemy_list.append((True, x, y))
+		#     otherwise, add a vertical enemy
+		#         similar to above
+
 
 		stabby(stabby_startx, stabby_starty, stabby_width, stabby_height, grey)
 		stabby_starty += stabby_speed
@@ -141,6 +168,11 @@ def gameLoop():
 			slashy_startx = 0 - slashy_width
 			slashy_starty = random.randrange(0, windowH)
 			slashy_speed = random.randrange(10, 20)
+
+		# The hit box:
+		# We want to go through each element in the enemy list,
+		# if the block is intersecting the enemy, block is no longer alive
+		# Probably just want a separate function for this.
 
 		if bloc_y < stabby_starty + stabby_height:
 			print('ye. character y value less than stabby boi y value.')
