@@ -71,25 +71,25 @@ def gameLoop():
 	# hor_width = 40
 	# hor_height = 10
 
+	# Moving Vertical
 	stabby_startx = random.randrange(0, windowW)
 	stabby_starty = -100
 	stabby_speed = random.randrange(10, 20)
 	stabby_width = 10
 	stabby_height = 40
 
+	# Moving Horizontal
 	slashy_startx = -100
 	slashy_starty = random.randrange(0, windowH)
 	slashy_speed = random.randrange(10, 20)
 	slashy_width = 40
 	slashy_height = 10
 
-	# Set the initial number of enemy bois
-	# Ex:
-	# num_enemies = 4
+	# Initiallize the total number of enemies.
+	num_enemies = 6
 
-	# Initialize an empty list of enemies
-	# Ex:
-	# enemy_list = []
+	# Initialize the list that will store the enemy values.
+	enemy_list = []
 
 	while True:
 		for event in pygame.event.get():
@@ -132,22 +132,48 @@ def gameLoop():
 		#     otherwise, add a vertical enemy
 		#         similar to above
 
+		while len(enemy_list) < num_enemies:
+			if random.random() < 0.5:
+				stabby(stabby_startx, stabby_starty, stabby_width, stabby_height, grey)
+				enemy_list.append([True, stabby_startx, stabby_starty, stabby_speed])
+				stabby_startx = random.randrange(0, windowW)
+				stabby_speed = random.randrange(10, 20)
+			else: 
+				stabby(slashy_startx, slashy_starty, slashy_width, slashy_height, grey)
+				enemy_list.append([False, slashy_startx, slashy_starty, slashy_speed])
+				slashy_starty = random.randrange(0, windowW)
+				slashy_speed = random.randrange(10, 20)
 
-		stabby(stabby_startx, stabby_starty, stabby_width, stabby_height, grey)
-		stabby(slashy_startx, slashy_starty, slashy_width, slashy_height, grey)
+		# stabby(stabby_startx, stabby_starty, stabby_width, stabby_height, grey)
+		# stabby(slashy_startx, slashy_starty, slashy_width, slashy_height, grey)
 
-		stabby_starty += stabby_speed
-		slashy_startx += slashy_speed
+		for enemy in enemy_list[::-1]:
+			# we first check if it is moving vertical
+			if enemy[0]:
+				# we then update stabby_starty
+				enemy[2] += enemy[3]
+				stabby(enemy[1], enemy[2], stabby_width, stabby_height, grey)	
+				if enemy[2] > windowH - 20:
+					enemy_list.remove(enemy)
+			else:
+				# if it is a slashy boyo we update the x instead
+				enemy[1] += enemy[3]
+				stabby(enemy[1], enemy[2], slashy_width, slashy_height, grey)
+				if enemy[1] > windowW - 20:
+					enemy_list.remove(enemy)
 
-		if stabby_starty > windowH - 20:
-			stabby_starty = 0 - stabby_starty
-			stabby_startx = random.randrange(0, windowW)
-			stabby_speed = random.randrange(10, 20)
+		# stabby_starty += stabby_speed
+		# slashy_startx += slashy_speed
 
-		if slashy_startx > windowW - 20:
-			slashy_startx = 0 - slashy_width
-			slashy_starty = random.randrange(0, windowH)
-			slashy_speed = random.randrange(10, 20)
+		# if stabby_starty > windowH - 20:
+		# 	stabby_starty = 0 - stabby_starty
+		# 	stabby_startx = random.randrange(0, windowW)
+		# 	stabby_speed = random.randrange(10, 20)
+
+		# if slashy_startx > windowW - 20:
+		# 	slashy_startx = 0 - slashy_width
+		# 	slashy_starty = random.randrange(0, windowH)
+		# 	slashy_speed = random.randrange(10, 20)
 
 		# The hit box:
 		# We want to go through each element in the enemy list,
