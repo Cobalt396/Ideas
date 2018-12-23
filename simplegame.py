@@ -56,12 +56,6 @@ def blocky(x,y,w,l,life):
 def stabby(x,y,w,h,color):
 	pygame.draw.rect(window, color, [x, y, w, h])
 
-def stabby2(x,y,w,h,color):
-	pygame.draw.rect(window, color, [x, y, w, h])
-
-def slashy(x,y,w,h,color):
-	pygame.draw.rect(window, color, [x, y, w, h])
-
 def gameLoop():
 	bloc_x = 275
 	bloc_y = 275
@@ -82,12 +76,6 @@ def gameLoop():
 	stabby_speed = random.randrange(10, 20)
 	stabby_width = 10
 	stabby_height = 40
-
-	stabby2_startx = random.randrange(0, windowW)
-	stabby2_starty = -100
-	stabby2_speed = random.randrange(10, 20)
-	stabby2_width = 10
-	stabby2_height = 40
 
 	slashy_startx = -100
 	slashy_starty = random.randrange(0, windowH)
@@ -146,23 +134,15 @@ def gameLoop():
 
 
 		stabby(stabby_startx, stabby_starty, stabby_width, stabby_height, grey)
+		stabby(slashy_startx, slashy_starty, slashy_width, slashy_height, grey)
+
 		stabby_starty += stabby_speed
-
-		stabby2(stabby2_startx, stabby2_starty, stabby2_width, stabby2_height, grey)
-		stabby2_starty += stabby2_speed
-
-		slashy(slashy_startx, slashy_starty, slashy_width, slashy_height, grey)
 		slashy_startx += slashy_speed
 
 		if stabby_starty > windowH - 20:
 			stabby_starty = 0 - stabby_starty
 			stabby_startx = random.randrange(0, windowW)
 			stabby_speed = random.randrange(10, 20)
-
-		if stabby2_starty > windowH - 20:
-			stabby2_starty = 0 - stabby2_starty
-			stabby2_startx = random.randrange(0, windowW)
-			stabby2_speed = random.randrange(10, 20)
 
 		if slashy_startx > windowW - 20:
 			slashy_startx = 0 - slashy_width
@@ -175,7 +155,7 @@ def gameLoop():
 		# Probably just want a separate function for this.
 
 		if bloc_y < stabby_starty + stabby_height:
-			print('ye. character y value less than stabby boi y value.')
+			print('character y value less than stabby boi y value.')
 
 			if bloc_x > stabby_startx and bloc_x < \
 			  stabby_startx + stabby_width or \
