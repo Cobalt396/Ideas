@@ -26,7 +26,7 @@ import time
 
 pygame.init()
 
-windowW = 640
+windowW = 1280
 windowH= 640
 
 window = pygame.display.set_mode((windowW, windowH))
@@ -86,7 +86,7 @@ def gameLoop():
 	slashy_height = 10
 
 	# Initiallize the total number of enemies.
-	num_enemies = 6
+	num_enemies = 30
 
 	# Initialize the list that will store the enemy values.
 	enemy_list = []
@@ -111,6 +111,8 @@ def gameLoop():
 				
 		if keys[pygame.K_q]:
 			break
+		if keys[pygame.K_r]:
+			blocky_life = True
 
 		# Might want a way to reset the game...
 
@@ -155,12 +157,21 @@ def gameLoop():
 				stabby(enemy[1], enemy[2], stabby_width, stabby_height, grey)	
 				if enemy[2] > windowH - 20:
 					enemy_list.remove(enemy)
+
+				if bloc_y + bloc_h > enemy[2] and bloc_y < enemy[2] + stabby_height:
+					if bloc_x + bloc_w > enemy[1] and bloc_x < enemy[1] + stabby_width:
+						blocky_life = False
 			else:
 				# if it is a slashy boyo we update the x instead
 				enemy[1] += enemy[3]
 				stabby(enemy[1], enemy[2], slashy_width, slashy_height, grey)
 				if enemy[1] > windowW - 20:
 					enemy_list.remove(enemy)
+
+				if bloc_y + bloc_h > enemy[2] and bloc_y < enemy[2] + slashy_height:
+					if bloc_x + bloc_w > enemy[1] and bloc_x < enemy[1] + slashy_width:
+						blocky_life = False
+
 
 		# stabby_starty += stabby_speed
 		# slashy_startx += slashy_speed
@@ -179,15 +190,6 @@ def gameLoop():
 		# We want to go through each element in the enemy list,
 		# if the block is intersecting the enemy, block is no longer alive
 		# Probably just want a separate function for this.
-
-		if bloc_y < stabby_starty + stabby_height:
-			print('character y value less than stabby boi y value.')
-
-			if bloc_x > stabby_startx and bloc_x < \
-			  stabby_startx + stabby_width or \
-			  bloc_x + bloc_w > stabby_startx and \
-			  bloc_x + bloc_w < stabby_startx + stabby_width:
-				blocky_life = False
 
 		pygame.display.update()
 		clock.tick(60)
