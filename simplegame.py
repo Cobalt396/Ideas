@@ -26,7 +26,7 @@ import time
 
 pygame.init()
 
-windowW = 1280
+windowW = 640
 windowH= 640
 
 window = pygame.display.set_mode((windowW, windowH))
@@ -55,6 +55,18 @@ def blocky(x,y,w,l,life):
 
 def stabby(x,y,w,h,color):
 	pygame.draw.rect(window, color, [x, y, w, h])
+
+def text_objects(text, font):
+	textSurface = font.render(text, True, black)
+	return textSurface, textSurface.get_rect()
+
+def display_message(text):
+	textInfo = pygame.font.Font('freesansbold.ttf', 50)
+	textSurf, textRect = text_objects(text, textInfo)
+	textRect.center = (30, 50)
+	window.blit(textSurf, textRect)
+
+	pygame.display.update()
 
 def gameLoop():
 	bloc_x = 275
@@ -85,11 +97,16 @@ def gameLoop():
 	slashy_width = 40
 	slashy_height = 10
 
+	# Initiallize points
+	points = 0
+
 	# Initiallize the total number of enemies.
-	num_enemies = 30
+	num_enemies = 1
 
 	# Initialize the list that will store the enemy values.
 	enemy_list = []
+
+	start = time.time()
 
 	while True:
 		for event in pygame.event.get():
@@ -111,8 +128,10 @@ def gameLoop():
 				
 		if keys[pygame.K_q]:
 			break
+			
 		if keys[pygame.K_r]:
 			blocky_life = True
+			start = time.time()
 
 		# Might want a way to reset the game...
 
@@ -190,6 +209,15 @@ def gameLoop():
 		# We want to go through each element in the enemy list,
 		# if the block is intersecting the enemy, block is no longer alive
 		# Probably just want a separate function for this.
+
+		end = time.time()
+
+		if blocky_life:
+			points = int(end - start)
+
+		num_enemies = int((points / 3) + 1)
+
+		display_message(str(points))
 
 		pygame.display.update()
 		clock.tick(60)
