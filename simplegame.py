@@ -2,28 +2,6 @@ import pygame
 import random
 import time
 
-
-# I think this is super cool!!!
-# Well done!
-# 
-# Daniel's Suggestions
-# If stabby, stabby2, and slashy do the same thing (as in the code in
-# their functions are the same) then you don't need three different
-# functions.
-# Instead, you could make a function called "makeBlock(x,y,w,h,color)"
-# that you just call three times.
-# Also, I'd call the function for the main character "makeMainCharacter"
-# since you can choose a block (rectangle) or circle depending on the
-# value of "life"
-# 
-# I can also probably help with getting the loop to remember all the 
-# stabby bois on the screen in order to make sure that the main character
-# gets hit by any stabby boi that enters the main character's hit box.
-#
-# Overall, fantatastic! I like the art and the idea!
-
-
-
 pygame.init()
 
 windowW = 640
@@ -60,13 +38,11 @@ def text_objects(text, font):
 	textSurface = font.render(text, True, black)
 	return textSurface, textSurface.get_rect()
 
-def display_message(text):
-	textInfo = pygame.font.Font('freesansbold.ttf', 50)
+def display_message(text, font_size, center_x, center_y):
+	textInfo = pygame.font.Font('freesansbold.ttf', font_size)
 	textSurf, textRect = text_objects(text, textInfo)
-	textRect.center = (30, 50)
+	textRect.center = (center_x, center_y)
 	window.blit(textSurf, textRect)
-
-	pygame.display.update()
 
 def gameLoop():
 	bloc_x = 275
@@ -128,7 +104,7 @@ def gameLoop():
 				
 		if keys[pygame.K_q]:
 			break
-			
+
 		if keys[pygame.K_r]:
 			blocky_life = True
 			start = time.time()
@@ -217,7 +193,9 @@ def gameLoop():
 
 		num_enemies = int((points / 3) + 1)
 
-		display_message(str(points))
+		display_message("Points: " + str(points), 50, 115, 50)
+
+		display_message("Level: " + str(num_enemies), 50, windowW - 100, 50)
 
 		pygame.display.update()
 		clock.tick(60)
