@@ -1,3 +1,5 @@
+import time
+
 def fibonacci(n1, n2):
 	'''fn to add two previous terms (n-1 and n-2) and return n'''
 	n = n1 + n2
@@ -32,8 +34,12 @@ n2 = 1
 #the index of the final term outputted
 y = 1000
 
+start_time = time.time()
+
 #loops through the adding and updating fns until reaching the desired nth term
 for x in range(y - 2):
 	n = fibonacci(n1, n2)
 	(n1, n2) = update(n, n1)
 	print(n)
+
+print("--- %s seconds ---" % (time.time() - start_time))
