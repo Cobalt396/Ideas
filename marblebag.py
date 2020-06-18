@@ -8,6 +8,12 @@ numPicks = 500
 
 x = [1, 2, 3]
 
+width = 0.75
+
+redBalls = 3
+greenBalls = 2
+blueBalls = 4
+
 def addMarbles(rNum, gNum, bNum):
 	bag = rNum * ["red"] + gNum * ["green"] + bNum * ["blue"]
 
@@ -65,17 +71,21 @@ def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
-        ax.annotate('{}'.format(height),
+        ax.annotate('{}%'.format(round(height * 100, 3)),
                     xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 points vertical offset
+                    xytext=(0, 2),  # 2 points vertical offset
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-marbleBag = addMarbles(3, 2, 1)
+marbleBag = addMarbles(redBalls, greenBalls, blueBalls)
 if prints:
 	print(marbleBag)
 # pickMarble(marbleBags)
 (redResults, greenResults, blueResults) = checkPicks(marbleBag)
+
+redTheory = round(redBalls / (redBalls + greenBalls + blueBalls), 2)
+greenTheory = round(greenBalls / (redBalls + greenBalls + blueBalls), 2)
+blueTheory = round(blueBalls / (redBalls + greenBalls + blueBalls), 2)
 
 if True:
 	print(redResults)
@@ -88,19 +98,35 @@ if True:
 
 formatter = FuncFormatter(percents)
 
-vals = [redResults/numPicks, greenResults/numPicks, blueResults/numPicks]
+valsR = [redResults/numPicks]
+valsG = [greenResults/numPicks]
+valsB = [blueResults/numPicks]
 
-fig, ax = plt.subplots()
-rects = ax.bar(x, vals)
+rL = "Red: " + str(redResults) + " Theoretical: " + str(redTheory * 100) + "%"
+gL = "Green: "+str(greenResults)+" Theoretical: " + str(greenTheory * 100) + "%"
+bL = "Blue: " + str(blueResults)+" Theoretical: " + str(blueTheory * 100) + "%"
+
+rColor = (0.85, 0, 0, 0.75)
+gColor = (0, 0.85, 0, 0.75)
+bColor = (0, 0, 0.85, 0.75)
+
+fig, ax = plt.subplots(figsize = (7, 7))
+rects1 = ax.bar(x[0], valsR, width, color = rColor, label = rL)
+rects2 = ax.bar(x[1], valsG, width, color = gColor, label = gL)
+rects3 = ax.bar(x[2], valsB, width, color = bColor, label = bL)
 plt.xticks(x, ("Red", "Green", "Blue"))
 ticks = ax.get_yticks()
 # ax.yaxis.set_major_formatter(formatter)
 ax.set_yticklabels(['{:,.1%}'.format(x) for x in ticks])
 
+ax.legend(bbox_to_anchor = (0.51,0.16))
+
 ax.set_ylabel('Percentages')
 ax.set_xlabel('Marble Colors')
 ax.set_title('Percentages of Colored Marbles Picked from Bag')
 
-autolabel(rects)
+autolabel(rects1)
+autolabel(rects2)
+autolabel(rects3)
 
 plt.show()
