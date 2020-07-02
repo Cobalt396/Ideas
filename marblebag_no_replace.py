@@ -4,15 +4,15 @@ from matplotlib.ticker import FuncFormatter
 
 prints = False
 
-numPicks = 500
-
 x = [1, 2, 3]
 
 width = 0.75
 
-redBalls = 3
-greenBalls = 2
-blueBalls = 4
+rMarbles = 50
+gMarbles = 30
+bMarbles = 40
+
+numPicks = (rMarbles + gMarbles + bMarbles) // 2
 
 def addMarbles(rNum, gNum, bNum):
 	bag = rNum * ["red"] + gNum * ["green"] + bNum * ["blue"]
@@ -21,22 +21,25 @@ def addMarbles(rNum, gNum, bNum):
 		print(bag)
 	return bag
 
-def pickMarble(bag):
+def pickMarbles(bag):
 	choice = random.randrange(0, len(bag))
 
 	if bag[choice] == "red":
 		if prints:
 			print("it's red!")
+		bag.pop(choice)
 		return "red"
 
 	elif bag[choice] == "green":
 		if prints:
 			print("it's green!")
+		bag.pop(choice)
 		return "green"
 
 	elif bag[choice] == "blue":
 		if prints:
 			print("it's blue!")
+		bag.pop(choice)
 		return "blue"
 
 	else:
@@ -48,7 +51,7 @@ def checkPicks(bag):
 	bluePick = 0
 
 	for i in range(numPicks):
-		result = pickMarble(bag)
+		result = pickMarbles(bag)
 
 		if result == "red":
 			redPick += 1
@@ -71,40 +74,38 @@ def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
-        ax.annotate('{}%'.format(round(height * 100, 3)),
+        ax.annotate('{}%'.format(round(height * 100, 2)),
                     xy=(rect.get_x() + rect.get_width() / 2, height),
                     xytext=(0, 2),  # 2 points vertical offset
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-marbleBag = addMarbles(redBalls, greenBalls, blueBalls)
+marbleBag = addMarbles(rMarbles, gMarbles, bMarbles)
+
 if prints:
-	print(marbleBag)
-# pickMarble(marbleBags)
-(redResults, greenResults, blueResults) = checkPicks(marbleBag)
+	print("Bag before picks: ", marbleBag)
+	print("Len of bag before picks: ", len(marbleBag))
 
-redTheory = round(redBalls / (redBalls + greenBalls + blueBalls), 2)
-greenTheory = round(greenBalls / (redBalls + greenBalls + blueBalls), 2)
-blueTheory = round(blueBalls / (redBalls + greenBalls + blueBalls), 2)
+(rResults, gResults, bResults) = checkPicks(marbleBag)
 
-if True:
-	print(redResults)
-	print(greenResults)
-	print(blueResults)
+if prints:
+	print("Red results: ", rResults)
+	print("Green results: ", gResults)
+	print("Blue results: ", bResults)
 
-	print(redResults/numPicks)
-	print(greenResults/numPicks)
-	print(blueResults/numPicks)	
+	print("Bag after picks: ", marbleBag)
+	print("Len of bag after picks: ", len(marbleBag))
+
 
 formatter = FuncFormatter(percents)
 
-valsR = [redResults/numPicks]
-valsG = [greenResults/numPicks]
-valsB = [blueResults/numPicks]
+valsR = [rResults/numPicks]
+valsG = [gResults/numPicks]
+valsB = [bResults/numPicks]
 
-rL = "Red: " + str(redResults) + " Theoretical: " + str(redTheory * 100) + "%"
-gL = "Green: "+str(greenResults)+" Theoretical: " + str(greenTheory * 100) + "%"
-bL = "Blue: " + str(blueResults)+" Theoretical: " + str(blueTheory * 100) + "%"
+rL = "Red: " + str(rResults) # + " Theoretical: " + str(redTheory * 100) + "%"
+gL = "Green: "+str(gResults) # + " Theoretical: " + str(greenTheory * 100) + "%"
+bL = "Blue: " + str(bResults) #+ " Theoretical: " + str(blueTheory * 100) + "%"
 
 rColor = (0.85, 0, 0, 0.75)
 gColor = (0, 0.85, 0, 0.75)
