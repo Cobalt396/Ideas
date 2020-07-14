@@ -8,8 +8,8 @@ x = [1, 2, 3]
 
 width = 0.75
 
-rMarbles = 50
-gMarbles = 30
+rMarbles = 30
+gMarbles = 20
 bMarbles = 40
 
 numPicks = (rMarbles + gMarbles + bMarbles) // 2
